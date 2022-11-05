@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 // import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyClkD_pHcTSaT-vWNWinMY-bgnCCeZeT8Q",
-  authDomain: "transcription-133e5.firebaseapp.com",
-  projectId: "transcription-133e5",
-  storageBucket: "transcription-133e5.appspot.com",
-  messagingSenderId: "574062769733",
-  appId: "1:574062769733:web:9e9e6c7d765774f2a3952c",
-  measurementId: "G-S98C7H1HPT",
+  apiKey: "AIzaSyC7Bo2Q_Dwc3D4dcEm22Fhxxv5xxkBUtLA",
+  authDomain: "iyftravelandtour-64885.firebaseapp.com",
+  projectId: "iyftravelandtour-64885",
+  storageBucket: "iyftravelandtour-64885.appspot.com",
+  messagingSenderId: "762839369206",
+  appId: "1:762839369206:web:fe4d46d2fbaba7563673d7",
+  measurementId: "G-1Z01GQ98WQ",
 };
 
 // Initialize Firebase
