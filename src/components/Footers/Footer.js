@@ -26,11 +26,11 @@ const footers = [
 
 const Footer = (props) => {
   return (
-    <>
+    <Container maxWidth='lg'>
       <Divider sx={{ mt: 10, mb: 3 }} />
-      <Grid container spacing={4} justifyContent="space-evenly">
+      <Grid container spacing={4} justifyContent="left">
         {footers.map((footer) => (
-          <Grid item xs={6} sm={3} key={footer.title}>
+          <Grid item xs={4} sm={3} key={footer.title}>
             <Typography variant="body1" color="text.secondary" gutterBottom>
               {footer.title}
             </Typography>
@@ -53,7 +53,7 @@ const Footer = (props) => {
         <Link text="IYF Travel & Tour" to="/" /> {new Date().getFullYear()}
         {"."}
       </Typography>
-    </>
+    </Container>
   );
 };
 

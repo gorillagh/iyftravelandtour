@@ -33,11 +33,7 @@ import EmailChange from "./pages/user/EmailChange";
 
 import AdminAccount from "./pages/admin/AdminAccount";
 import AdminProfile from "./pages/admin/AdminProfile";
-import Pricing from "./pages/Pricing";
-import FileSubmission from "./pages/order/FileSubmission";
-import TranscriptionOrder from "./pages/order/TranscriptionOrder";
-import CaptioningOrder from "./pages/order/CaptioningOrder";
-import TranslationOrder from "./pages/order/TranslationOrder";
+
 
 let theme = createTheme({
   palette: {
@@ -147,8 +143,6 @@ const App = () => {
       {/* <Container maxWidth="lg"> */}
       <Routes>
         <Route exact path="/" element={<Home />} />
-        {/* <Route exact path="/pricing" element={<Pricing />} /> */}
-
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup/complete" element={<SignupComplete />} />
