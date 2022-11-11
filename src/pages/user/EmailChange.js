@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { updateUser } from "../../serverFunctions/auth";
 import { toast } from "react-toastify";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import LoadingBackdrop from "../../components/Feedbacks/LoadingBackdrop";
 
 const EmailChange = () => {
@@ -70,9 +70,10 @@ const EmailChange = () => {
   }, [handleEmailChange]);
 
   return (
+    <Container maxWidth="lg">
     <Box>
       <LoadingBackdrop open={loading} />
-    </Box>
+    </Box></Container>
   );
 };
 

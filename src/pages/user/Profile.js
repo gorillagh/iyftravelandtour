@@ -313,8 +313,9 @@ const Profile = () => {
   };
 
   return (
+    <Container maxWidth="lg">
     <Box>
-      <PageTitle textAlign="center" title="My Profile" />
+      <PageTitle  title="My Profile" />
       <VerticalTabs />
       <ChangePassword
         open={openChangePasswordModal}
@@ -335,7 +336,7 @@ const Profile = () => {
         closeModal={() => setOpenChangeEmailModal(false)}
         fetchUser={fetchUser}
       />
-    </Box>
+    </Box></Container>
   );
 };
 
