@@ -28,7 +28,7 @@ import logo from "../../images/logo-32x32.png";
 import Link from "../Links/Link";
 
 const pages = ["Flights", "Hotels", "Get Visa", "Support"];
-const settings = ["profile", "account", "dashboard", "logout"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Navbar(props) {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -111,11 +111,11 @@ function Navbar(props) {
 
     if (
       e.currentTarget.innerText !== "" &&
-      e.currentTarget.innerText !== "logout"
+      e.currentTarget.innerText !== "Logout"
     )
-      navigate(`/my/${e.currentTarget.innerText}`);
+      navigate(`/my/${e.currentTarget.innerText.toLowerCase()}`);
 
-    e.currentTarget.innerText === "logout" && handleSignOut();
+    e.currentTarget.innerText === "Logout" && handleSignOut();
   };
 
   return (
@@ -288,7 +288,7 @@ function Navbar(props) {
                       key={setting}
                       onClick={handleCloseUserMenu}
                     >
-                      <Typography textAlign="center" sx={{textTransform:'capitalize'}} onClick={handleCloseUserMenu}>{setting}</Typography>
+                      <Typography textAlign="center" onClick={handleCloseUserMenu}>{setting}</Typography>
                     </MenuItem>
                   ))}
                 </Box>
