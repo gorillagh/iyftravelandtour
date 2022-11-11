@@ -126,7 +126,7 @@ const Signup = () => {
 
       await sendSignInLinkToEmail(auth, email, config);
 
-      window.localStorage.setItem("eBSignupEmail", email);
+      window.localStorage.setItem("iyfSignupEmail", email);
       toast.success(`Verificaton link sent to ${email}.`);
       setEmail("");
       setEmailMsg(email);

@@ -288,7 +288,7 @@ function Navbar(props) {
                       key={setting}
                       onClick={handleCloseUserMenu}
                     >
-                      <Typography textAlign="center">{setting}</Typography>
+                      <Typography textAlign="center" onClick={handleCloseUserMenu}>{setting}</Typography>
                     </MenuItem>
                   ))}
                 </Box>

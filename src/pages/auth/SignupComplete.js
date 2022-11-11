@@ -102,7 +102,7 @@ const SignupComplete = () => {
           window.location.href
         );
         if (result.user.emailVerified) {
-          window.localStorage.removeItem("eBSignupEmail");
+          window.localStorage.removeItem("iyfSignupEmail");
           let fbUser = auth.currentUser;
 
           await updatePassword(fbUser, password1);
