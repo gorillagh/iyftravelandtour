@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import { toast } from "react-toastify";
@@ -113,7 +113,7 @@ function Navbar(props) {
       e.currentTarget.innerText !== "" &&
       e.currentTarget.innerText !== "Logout"
     )
-      navigate(`/my/${e.currentTarget.innerText.toLowerCase()}`);
+      redirect(`/my/${e.currentTarget.innerText.toLowerCase()}`);
 
     e.currentTarget.innerText === "Logout" && handleSignOut();
   };
