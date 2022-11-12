@@ -138,7 +138,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <Navbar /> */}
+      <Navbar />
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
       {/* <Container maxWidth="lg"> */}
       <Routes>

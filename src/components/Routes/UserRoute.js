@@ -9,7 +9,7 @@ const UserRoute = ({ children }) => {
   const { user } = useSelector((state) => ({ ...state }));
   return user && user.token ? (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       {children}
       </div>
   ) : (
