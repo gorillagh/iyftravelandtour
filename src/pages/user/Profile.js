@@ -20,7 +20,6 @@ import ChangePhone from "../../components/PopUps/ChangePhone";
 import { currentUser } from "../../serverFunctions/auth";
 import ChangeEmail from "../../components/PopUps/ChangeEmail";
 import PageTitle from "../../components/Typography/PageTitle";
-import Navbar from "../../components/Navbars/Navbar";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -314,8 +313,6 @@ const Profile = () => {
   };
 
   return (
-    <>
-    <Navbar />
     <Container maxWidth="lg">
     <Box>
       <PageTitle  title="My Profile" />
@@ -339,9 +336,7 @@ const Profile = () => {
         closeModal={() => setOpenChangeEmailModal(false)}
         fetchUser={fetchUser}
       />
-    </Box>
-    </Container>
-    </>
+    </Box></Container>
   );
 };
 
