@@ -138,17 +138,16 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
+      {/* <Navbar /> */}
       <ToastContainer style={{ fontSize: "12px", fontWeight: "bold" }} />
       {/* <Container maxWidth="lg"> */}
       <Routes>
-        <Route key={1} exact path="/" element={<Home />} />
-        <Route key={2} exact path="/signup" element={<Signup />} />
-        <Route key={3} exact path="/login" element={<Login />} />
-        <Route key={4} exact path="/signup/complete" element={<SignupComplete />} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup/complete" element={<SignupComplete />} />
 
         <Route
-        key={5}
           exact
           path="/my/dashboard"
           element={
@@ -158,7 +157,7 @@ const App = () => {
           }
         />
 
-        <Route key={6}
+        <Route
           exact
           path="/my/account"
           element={
@@ -167,7 +166,7 @@ const App = () => {
             </UserRoute>
           }
         />
-        <Route key={7}
+        <Route
           exact
           path="/my/profile"
           element={
@@ -177,7 +176,6 @@ const App = () => {
           }
         />
         <Route
-        key={8}
           exact
           path="/email/change"
           element={
@@ -188,7 +186,6 @@ const App = () => {
         />
 
         <Route
-        key={9}
           exact
           path="/admin/dashboard"
           element={
@@ -198,7 +195,6 @@ const App = () => {
           }
         />
         <Route
-        key={10}
           exact
           path="/admin/account"
           element={
@@ -208,7 +204,6 @@ const App = () => {
           }
         />
         <Route
-        key={11}
           exact
           path="/admin/profile"
           element={
@@ -218,7 +213,7 @@ const App = () => {
           }
         />
 
-        <Route key={12} exact path="*" element={<NotFound />} />
+        <Route exact path="*" element={<NotFound />} />
       </Routes>
       <Footer />
       {/* </Container> */}
