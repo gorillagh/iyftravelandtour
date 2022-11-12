@@ -108,14 +108,10 @@ function Navbar(props) {
 
   const handleCloseUserMenu = async (e) => {
     setAnchorElUser(null);
+    if (e.target.id !== "" && e.target.id !== "Logout")
+      navigate(`/my/${e.target.id.toLowerCase()}`);
 
-    if (
-      e.currentTarget.innerText !== "" &&
-      e.currentTarget.innerText !== "Logout"
-    )
-      navigate(`/my/${e.currentTarget.innerText.toLowerCase()}`);
-
-    e.currentTarget.innerText === "Logout" && handleSignOut();
+    e.target.id === "Logout" && handleSignOut();
   };
 
   return (
@@ -284,11 +280,11 @@ function Navbar(props) {
                 <Box sx={{ display: { xs: user === null ? "none" : "block" } }}>
                   {settings.map((setting) => (
                     <MenuItem
-                      name={setting}
+                      id={setting}
                       key={setting}
                       onClick={handleCloseUserMenu}
                     >
-                      <Typography textAlign="center" onClick={handleCloseUserMenu}>{setting}</Typography>
+                      <Typography textAlign="center" id={setting}>{setting}</Typography>
                     </MenuItem>
                   ))}
                 </Box>
