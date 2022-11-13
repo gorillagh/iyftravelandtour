@@ -70,7 +70,7 @@ let theme = createTheme({
   //   borderRadius: 14,
   // },
   typography: {
-    htmlFontSize: 18,
+    htmlFontSize: 16,
     fontFamily: [
       // "Ubuntu",
       "-apple-system",
