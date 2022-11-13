@@ -34,7 +34,6 @@ import EmailChange from "./pages/user/EmailChange";
 import AdminAccount from "./pages/admin/AdminAccount";
 import AdminProfile from "./pages/admin/AdminProfile";
 
-
 let theme = createTheme({
   palette: {
     mode: "light",
@@ -71,7 +70,7 @@ let theme = createTheme({
   //   borderRadius: 14,
   // },
   typography: {
-    htmlFontSize: 20,
+    htmlFontSize: 18,
     fontFamily: [
       // "Ubuntu",
       "-apple-system",
