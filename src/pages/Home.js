@@ -1,40 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Autocomplete,
-  Box,
-  Container,
-  Grid,
-  Link,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import React from "react";
+import { Box, Container, Grid, Paper } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import FlightIcon from "@mui/icons-material/Flight";
+import HotelIcon from "@mui/icons-material/Hotel";
 
 import ActionButton from "../components/Buttons/ActionButton";
 import PageTitle from "../components/Typography/PageTitle";
-import CheckIcon from "@mui/icons-material/Check";
 
-import ChooseOrderType from "../components/PopUps/ChooseOrderType";
-import Subtitle from "../components/Typography/Subtitle";
-
-const top100Cities = [
-  { label: "Accra", year: 1994 },
-  { label: "Kumasi", year: 1972 },
-  { label: "Paris", year: 1974 },
-  { label: "London", year: 2008 },
-  { label: "New York City", year: 1957 },
-  { label: "Lagos", year: 1993 },
-  { label: "Abuja", year: 1994 },
-];
+import FlightInput from "../components/Views/FlightInput";
 
 const Home = () => {
-  const [openChooseOrderType, setOpenChooseOrderType] = useState(false);
-  const navigate = useNavigate();
+  const [alignment, setAlignment] = React.useState("flights");
+
+  const handleChange = (event, newAlignment) => {
+    if (newAlignment === null) return;
+    setAlignment(newAlignment);
+    console.log(newAlignment);
+  };
 
   return (
     <Box>
@@ -47,14 +30,19 @@ const Home = () => {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundImage: `url(heroImage.jpg)`,
+          backgroundImage:
+            alignment === "flights"
+              ? `url(https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80)`
+              : alignment === "hotels"
+              ? "url(https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)"
+              : "url(https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)",
         }}
       >
         {/* Increase the priority of the hero background image */}
         {
           <img
             style={{ display: "none" }}
-            src="https://source.unsplash.com/random"
+            src="url(heroImage.jpg)"
             alt="hero image"
           />
         }
@@ -66,89 +54,50 @@ const Home = () => {
               bottom: 0,
               right: 0,
               left: 0,
-              backgroundColor: "rgba(0,0,0,.2)",
+              backgroundColor: "rgba(0,0,0,.4)",
             }}
           />
-          <Grid container>
-            <Grid item md={6}>
-              <Box
-                sx={{
-                  position: "relative",
-                  py: 3,
-                }}
-              >
-                <Subtitle
-                  fontWeight="bold"
-                  title="Easy finding and booking flights and hotels in all of Africa"
-                />
-              </Box>
-            </Grid>
-          </Grid>
+
           <Box
             sx={{
-              m: 1,
-              p: 2,
+              position: "relative",
+            }}
+          >
+            {" "}
+            <PageTitle
+              textAlign="center"
+              fontWeight="bold"
+              title="Easy finding and booking flights and hotels"
+            />
+          </Box>
+
+          <Box
+            sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               borderRadius: "16px",
-              background: " rgba(0, 0, 153, 0.5)",
-              background: " rgba(255, 255, 255, 0.7 )",
-              webkitBackdropFilter: "blur(5px)",
-              border: "rgba(255, 255, 255, 0.9)",
             }}
           >
-            <Grid container spacing={2} justifyContent="right">
-              <Grid item xs={12} md={4}>
-                <Autocomplete
-                  size="small"
-                  sx={{ backgroundColor: "#fff", p: 1 }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={top100Cities}
-                  renderInput={(params) => (
-                    <TextField
-                      sx={{ backgroundColor: "#fff" }}
-                      {...params}
-                      label="From"
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Autocomplete
-                  size="small"
-                  sx={{ backgroundColor: "#fff", p: 1 }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={top100Cities}
-                  renderInput={(params) => (
-                    <TextField
-                      sx={{ backgroundColor: "#fff" }}
-                      {...params}
-                      label="to"
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Autocomplete
-                  size="small"
-                  sx={{ backgroundColor: "#fff", p: 1 }}
-                  disablePortal
-                  id="combo-box-demo"
-                  options={top100Cities}
-                  renderInput={(params) => (
-                    <TextField
-                      sx={{ backgroundColor: "#fff" }}
-                      {...params}
-                      label="Leaving On"
-                    />
-                  )}
-                />
-              </Grid>
+            <ToggleButtonGroup
+              sx={{ my: 3 }}
+              value={alignment}
+              exclusive
+              onChange={handleChange}
+              aria-label="Platform"
+            >
+              <ToggleButton value="flights">
+                <FlightIcon sx={{ mr: 1 }} /> Flights
+              </ToggleButton>
+              <ToggleButton value="hotels">
+                <HotelIcon sx={{ mr: 1 }} /> Hotels
+              </ToggleButton>
+              <ToggleButton value="visa">Visa</ToggleButton>
+            </ToggleButtonGroup>
+            <FlightInput />
+            <Grid container justifyContent="right">
               <Grid item xs={12} md={3}>
-                <ActionButton text="Book now" />
+                <ActionButton text="Search" />
               </Grid>
             </Grid>
           </Box>

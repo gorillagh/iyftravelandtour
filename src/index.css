@@ -23,3 +23,40 @@ body {
   height: 45px;
   /* margin-top: 40px; */
 }
+
+.Mui-selected{
+  background-color: #000099 !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  border-style: solid;
+      border-color: transparent transparent #000099 transparent;
+      border-width: 0 25px 25px 25px;
+      
+      box-sizing: content-box;
+      /* position: relative; */
+}
+.MuiToggleButton-root{
+  color: #fff !important;
+  font-weight: bold !important;
+  border: none !important;
+  margin-right: 16px !important;
+ 
+                  
+}
+.Mui-selected::after{
+  content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 25%;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: #000099 transparent transparent transparent;
+      border-width: 10px 10px 0 10px;
+}
+
+.MuiAutocomplete-root, .MuiFilledInput-root{
+  border: none !important;
+  background-color: #fcfcfb !important;
+  border-radius: 5px !important;
+}
