@@ -35,7 +35,7 @@ body {
       box-sizing: content-box;
       /* position: relative; */
 }
-.MuiToggleButton-root{
+.booking-select-button{
   color: #fff !important;
   font-weight: bold !important;
   border: none !important;

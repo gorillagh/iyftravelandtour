@@ -1,109 +1,151 @@
-import React from "react";
-import { Box, Container, Grid, Paper } from "@mui/material";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import FlightIcon from "@mui/icons-material/Flight";
-import HotelIcon from "@mui/icons-material/Hotel";
+import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import HeroSection from "../components/Views/HeroSection";
+import airports from "../airports.json";
+import codes from "../codes.json";
 
-import ActionButton from "../components/Buttons/ActionButton";
-import PageTitle from "../components/Typography/PageTitle";
+const bookings = [
+  { type: "Flights", icon: "flight" },
+  { type: "Hotels", icon: "hotel" },
+  { type: "Visa", icon: "card" },
+];
 
-import FlightInput from "../components/Views/FlightInput";
+const Home = (props) => {
+  const [userCurrentLocation, setUserCurrentLocation] = useState({});
+  const [bookingTypes, setBookingTypes] = useState();
+  const [selectedBookingType, setSelectedBookingType] = useState("flights");
+  const [flightSearchDetails, setFlightSearchDetails] = useState({
+    origin: {},
+    destination: {},
+    departDate: " ",
+    returnDate: " ",
+    passengerOptions: {},
+  });
+  const [originAirports, setOriginAirports] = useState([]);
+  const [destinationAirports, setDestinationAirports] = useState([]);
+  const [passengerOptions, setPassengerOptions] = useState({
+    adult: 1,
+    infant: 0,
+  });
 
-const Home = () => {
-  const [alignment, setAlignment] = React.useState("flights");
+  useEffect(() => {
+    mergeCodes();
+    setBookingTypes(bookings);
+  }, []);
 
-  const handleChange = (event, newAlignment) => {
-    if (newAlignment === null) return;
-    setAlignment(newAlignment);
-    console.log(newAlignment);
+  ///////Merge country codes////////////////
+  const mergeCodes = async () => {
+    try {
+      let result = [];
+      airports.map((a, i) => {
+        return codes.map((c, i) => {
+          if (a.country === c.name) {
+            result.push({ ...a, countryCode: c.code, dialCode: c.dial_code });
+          }
+          return result;
+        });
+      });
+      setOriginAirports(result);
+      setDestinationAirports(result);
+
+      const userLocDetails = await fetch(
+        "https://api.ipregistry.co/?key=qp552fub7f2xswwe"
+      ).then(function (response) {
+        return response.json();
+      });
+      setUserCurrentLocation(await userLocDetails.location);
+      console.log("location", userLocDetails.location.country);
+
+      let autoOrigin = await result.find(
+        (element) =>
+          element.countryCode === userLocDetails.location.country.code
+      );
+
+      autoOrigin &&
+        setFlightSearchDetails((oldValues) => ({
+          ...oldValues,
+          origin: autoOrigin,
+        }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  ////////////Change Booking Type//////////////////
+  const handleBookingTypeChange = (e, value) => {
+    if (selectedBookingType === null) return;
+    setSelectedBookingType(value);
+    console.log(value);
+  };
+
+  /////////////Flight Search Form Changes////////////////////////
+  const handleOriginChange = (e, value) => {
+    console.log(value);
+    value !== null &&
+      setFlightSearchDetails((oldValues) => ({
+        ...oldValues,
+        origin: value,
+      }));
+  };
+
+  const handleDestinationChange = (e, value) => {
+    value !== null &&
+      setFlightSearchDetails((oldValues) => ({
+        ...oldValues,
+        destination: value,
+      }));
+  };
+  const handleDepartDateChange = (value) => {
+    console.log(new Date(value));
+    if (value !== null) {
+      setFlightSearchDetails((oldValues) => ({
+        ...oldValues,
+        departDate: value,
+      }));
+      if (new Date(value) > new Date(flightSearchDetails.returnDate))
+        setFlightSearchDetails((oldValues) => ({
+          ...oldValues,
+          returnDate: value,
+        }));
+    }
+  };
+  const handleReturnDateChange = (value) => {
+    console.log(value);
+    value !== null &&
+      setFlightSearchDetails((oldValues) => ({
+        ...oldValues,
+        returnDate: value,
+      }));
+  };
+  const handlePassengersChange = (e, value) => {
+    setFlightSearchDetails((oldValues) => ({
+      ...oldValues,
+      passengers: value,
+    }));
+  };
+
+  const handleFlightSearch = (e) => {
+    console.log("Searching for Best Flight");
+  };
+  //////////////////////////////////////////////////////////////
+
   return (
-    <Box>
-      <Paper
-        sx={{
-          position: "relative",
-          backgroundColor: "grey.800",
-          color: "#fff",
-          mb: 4,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundImage:
-            alignment === "flights"
-              ? `url(https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80)`
-              : alignment === "hotels"
-              ? "url(https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)"
-              : "url(https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)",
-        }}
-      >
-        {/* Increase the priority of the hero background image */}
-        {
-          <img
-            style={{ display: "none" }}
-            src="url(heroImage.jpg)"
-            alt="hero image"
-          />
-        }
-        <Container sx={{ py: 2 }} maxWidth="lg">
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              right: 0,
-              left: 0,
-              backgroundColor: "rgba(0,0,0,.4)",
-            }}
-          />
-
-          <Box
-            sx={{
-              position: "relative",
-            }}
-          >
-            {" "}
-            <PageTitle
-              textAlign="center"
-              fontWeight="bold"
-              title="Easy finding and booking flights and hotels"
-            />
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: "16px",
-            }}
-          >
-            <ToggleButtonGroup
-              sx={{ my: 3 }}
-              value={alignment}
-              exclusive
-              onChange={handleChange}
-              aria-label="Platform"
-            >
-              <ToggleButton value="flights">
-                <FlightIcon sx={{ mr: 1 }} /> Flights
-              </ToggleButton>
-              <ToggleButton value="hotels">
-                <HotelIcon sx={{ mr: 1 }} /> Hotels
-              </ToggleButton>
-              <ToggleButton value="visa">Visa</ToggleButton>
-            </ToggleButtonGroup>
-            <FlightInput />
-            <Grid container justifyContent="right">
-              <Grid item xs={12} md={3}>
-                <ActionButton text="Search" />
-              </Grid>
-            </Grid>
-          </Box>
-        </Container>
-      </Paper>
-    </Box>
+    <>
+      <HeroSection
+        bookingTypes={bookingTypes}
+        selectedBookingType={selectedBookingType}
+        handleBookingTypeChange={handleBookingTypeChange}
+        flightSearchDetails={flightSearchDetails}
+        originAirports={originAirports}
+        destinationAirports={destinationAirports}
+        passengerOptions={passengerOptions}
+        handleOriginChange={handleOriginChange}
+        handleDestinationChange={handleDestinationChange}
+        handleDepartDateChange={handleDepartDateChange}
+        handleReturnDateChange={handleReturnDateChange}
+        handleFlightSearch={handleFlightSearch}
+      />
+    </>
   );
 };
 

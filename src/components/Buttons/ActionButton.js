@@ -18,6 +18,7 @@ const ActionButton = (props) => {
         backgroundColor: props.backgroundColor,
         "&:hover": {
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
+          backgroundColor: "#aaaa00",
         },
       }}
       {...props}
