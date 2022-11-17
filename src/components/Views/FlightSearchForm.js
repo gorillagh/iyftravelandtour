@@ -8,14 +8,22 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import ActionButton from "../Buttons/ActionButton";
-import { Icon, InputAdornment, Typography } from "@mui/material";
+import Icon from "@mui/material/Icon";
+import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
+import { IconButton } from "@mui/material";
+import PassengerSelection from "../PopUps/PassengerSelection";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const FlightSearchForm = (props) => {
   const [open, setOpen] = React.useState(false);
   const [openDes, setOpenDes] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [optionsDes, setOptionsDes] = React.useState([]);
+  const [openPassengerSelection, setOpenPassengerSelection] =
+    React.useState(false);
+  const [additionalNotes, setAdditionalNotes] = React.useState("");
   const loading = open && options.length === 0;
   const loadingDes = openDes && optionsDes.length === 0;
 
@@ -67,9 +75,41 @@ const FlightSearchForm = (props) => {
     }
   }, [openDes]);
 
+  const handleAdditionalNotesChange = (e) => {
+    setAdditionalNotes(e.value);
+  };
+
   return (
-    <Box>
-      <Grid container spacing={{ xs: 2, md: 1 }} justifyContent="center">
+    <Box display={props.selectedBookingType !== "flights" ? "none" : ""}>
+      <Grid container>
+        <Grid item md={2}></Grid>
+        <Grid item md={2}></Grid>
+        <Grid item md={3}></Grid>
+        <Grid item md={2}>
+          {" "}
+          <FormControlLabel
+            sx={{ visibility: { xs: "hidden", md: "visible" } }}
+            control={
+              <Switch
+                size="small"
+                checked={props.flightSearchDetails.roundTrip}
+                onChange={props.handleRoundTripChange}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label={
+              <Typography
+                variant="body2"
+                color="primary.dark"
+                fontWeight="bold"
+              >
+                Round Trip
+              </Typography>
+            }
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={{ xs: 2, md: 3 }} justifyContent="center">
         <Grid item xs={12} md={2}>
           <Autocomplete
             open={open}
@@ -88,7 +128,9 @@ const FlightSearchForm = (props) => {
             disablePortal
             options={options}
             getOptionLabel={(option) =>
-              option.city ? `${option.city} (${option.iata_code})` : ""
+              option.city
+                ? `${option.city}, ${option.country} (${option.iata_code})`
+                : ""
             }
             loading={loading}
             renderOption={(props, option) => (
@@ -97,13 +139,13 @@ const FlightSearchForm = (props) => {
                 sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                 {...props}
               >
-                {/* <img
+                <img
                   loading="lazy"
                   width="20"
                   src={`https://flagcdn.com/w10/${option.countryCode.toLowerCase()}.png`}
                   srcSet={`https://flagcdn.com/w20/${option.countryCode.toLowerCase()}.png `}
                   alt=""
-                /> */}
+                />
                 <Typography variant="body2">
                   {option.city} ({option.iata_code})
                 </Typography>
@@ -152,7 +194,9 @@ const FlightSearchForm = (props) => {
             value={props.flightSearchDetails.destination.origin}
             onChange={props.handleDestinationChange}
             options={optionsDes}
-            getOptionLabel={(option) => `${option.city} (${option.iata_code})`}
+            getOptionLabel={(option) =>
+              `${option.city}, ${option.country} (${option.iata_code})`
+            }
             loading={loadingDes}
             renderOption={(props, option) => (
               <Box
@@ -160,13 +204,13 @@ const FlightSearchForm = (props) => {
                 sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                 {...props}
               >
-                {/* <img
+                <img
                   loading="lazy"
                   width="20"
                   src={`https://flagcdn.com/w10/${option.countryCode.toLowerCase()}.png`}
                   srcSet={`https://flagcdn.com/w20/${option.countryCode.toLowerCase()}.png `}
                   alt=""
-                /> */}
+                />
                 <Typography variant="body2">
                   {option.city} ({option.iata_code})
                 </Typography>
@@ -201,7 +245,33 @@ const FlightSearchForm = (props) => {
           />
         </Grid>
         <Grid item xs={12} md={3}>
-          <Grid container>
+          <Grid container spacing={{ xs: 1, md: 1 }}>
+            <Grid container>
+              <Grid item xs={6}></Grid>
+              <Grid item xs={6}>
+                <FormControlLabel
+                  sx={{ display: { md: "none" } }}
+                  control={
+                    <Switch
+                      defaultChecked
+                      size="small"
+                      checked={props.flightSearchDetails.roundTrip}
+                      onChange={props.handleRoundTripChange}
+                      inputProps={{ "aria-label": "controlled" }}
+                    />
+                  }
+                  label={
+                    <Typography
+                      variant="body2"
+                      color="primary"
+                      fontWeight="bold"
+                    >
+                      round trip
+                    </Typography>
+                  }
+                />
+              </Grid>
+            </Grid>
             <Grid item xs={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -224,7 +294,10 @@ const FlightSearchForm = (props) => {
                         disableUnderline: true,
                         endAdornment: (
                           <React.Fragment>
-                            <Icon sx={{ display: { lg: "none" } }}>
+                            <Icon
+                              color="primary"
+                              sx={{ display: { lg: "none" } }}
+                            >
                               calendar_month
                             </Icon>
                             {params.InputProps.endAdornment}
@@ -239,13 +312,18 @@ const FlightSearchForm = (props) => {
             <Grid item xs={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  disabled={!props.flightSearchDetails.roundTrip}
                   disablePast
-                  label="returning on"
+                  label="Returning on"
                   openTo="day"
                   views={["year", "month", "day"]}
                   inputFormat="DD-MM-YYYY"
                   minDate={props.flightSearchDetails.departDate}
-                  value={props.flightSearchDetails.returnDate}
+                  value={
+                    props.flightSearchDetails.roundTrip
+                      ? props.flightSearchDetails.returnDate
+                      : null
+                  }
                   onChange={props.handleReturnDateChange}
                   renderInput={(params) => (
                     <TextField
@@ -258,7 +336,14 @@ const FlightSearchForm = (props) => {
                         disableUnderline: true,
                         endAdornment: (
                           <React.Fragment>
-                            <Icon sx={{ display: { lg: "none" } }}>
+                            <Icon
+                              color={
+                                props.flightSearchDetails.roundTrip
+                                  ? "primary"
+                                  : ""
+                              }
+                              sx={{ display: { lg: "none" } }}
+                            >
                               calendar_month
                             </Icon>
                             {params.InputProps.endAdornment}
@@ -274,31 +359,40 @@ const FlightSearchForm = (props) => {
         </Grid>
 
         <Grid item xs={12} md={2}>
-          {/* <Autocomplete
+          <TextField
             size="small"
-            freeSolo
-            disablePortal
-            value={props.flightSearchDetails.passengers}
-            onChange={props.handlePassengersChange}
-            options={props.passengerOptions}
-            renderInput={(params) => ( */}
-          <Box style={{ cursor: "pointer !important" }}>
-            <TextField
-              // {...params}
-
-              size="small"
-              disabled
-              fullWidth
-              variant="filled"
-              label="Passengers"
-              // InputProps={{
-              //   ...params.InputProps,
-              //   disableUnderline: true,
-              // }}
-            />
-          </Box>
-          {/* )}
-          /> */}
+            type="text"
+            value={
+              Number(props.flightSearchDetails.passengers.adults) +
+                Number(props.flightSearchDetails.passengers.infants) ===
+              1
+                ? "1 Passenger"
+                : `${
+                    Number(props.flightSearchDetails.passengers.adults) +
+                    Number(props.flightSearchDetails.passengers.infants)
+                  } Passengers`
+            }
+            onClick={() => setOpenPassengerSelection(true)}
+            fullWidth
+            variant="filled"
+            label="Passengers"
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={() => setOpenPassengerSelection(true)}>
+                  <Icon sx={{ color: "primary.main" }}>escalator_warning</Icon>
+                </IconButton>
+              ),
+              disableUnderline: true,
+            }}
+          />
+          <PassengerSelection
+            openPassengerSelection={openPassengerSelection}
+            handleAdditionalNotesChange={handleAdditionalNotesChange}
+            handlePassengerSelectionClose={() =>
+              setOpenPassengerSelection(false)
+            }
+            {...props}
+          />
         </Grid>
       </Grid>
       <Grid container justifyContent="right" spacing={1}>

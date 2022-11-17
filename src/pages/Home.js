@@ -3,34 +3,45 @@ import { Box } from "@mui/material";
 import HeroSection from "../components/Views/HeroSection";
 import airports from "../airports.json";
 import codes from "../codes.json";
-
-const bookings = [
-  { type: "Flights", icon: "flight" },
-  { type: "Hotels", icon: "hotel" },
-  { type: "Visa", icon: "card" },
-];
+import { toast } from "react-toastify";
+import LoadingBackdrop from "../components/Feedbacks/LoadingBackdrop";
+import FlightSearch from "../components/PopUps/FlightSearch";
 
 const Home = (props) => {
   const [userCurrentLocation, setUserCurrentLocation] = useState({});
-  const [bookingTypes, setBookingTypes] = useState();
+  const [bookingTypes, setBookingTypes] = useState([
+    { type: "flights", icon: "flight" },
+    { type: "hotels", icon: "hotel" },
+    { type: "visa", icon: "card" },
+  ]);
   const [selectedBookingType, setSelectedBookingType] = useState("flights");
   const [flightSearchDetails, setFlightSearchDetails] = useState({
     origin: {},
     destination: {},
-    departDate: " ",
-    returnDate: " ",
-    passengerOptions: {},
+    departDate: new Date(),
+    returnDate: new Date(),
+    passengers: {
+      adults: 1,
+      infants: 0,
+    },
+    bookingType: selectedBookingType,
+    bookingClass: "economy",
+    roundTrip: true,
   });
   const [originAirports, setOriginAirports] = useState([]);
   const [destinationAirports, setDestinationAirports] = useState([]);
-  const [passengerOptions, setPassengerOptions] = useState({
-    adult: 1,
-    infant: 0,
-  });
+  const [passengerOptions, setPassengerOptions] = useState([
+    {
+      adults: 1,
+      infants: 0,
+      additionalNotes: "",
+    },
+  ]);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     mergeCodes();
-    setBookingTypes(bookings);
   }, []);
 
   ///////Merge country codes////////////////
@@ -49,7 +60,8 @@ const Home = (props) => {
       setDestinationAirports(result);
 
       const userLocDetails = await fetch(
-        "https://api.ipregistry.co/?key=qp552fub7f2xswwe"
+        // "https://api.ipregistry.co/?key=qp552fub7f2xswwe"
+        "https://api.ipregistry.co/?key="
       ).then(function (response) {
         return response.json();
       });
@@ -73,7 +85,8 @@ const Home = (props) => {
 
   ////////////Change Booking Type//////////////////
   const handleBookingTypeChange = (e, value) => {
-    if (selectedBookingType === null) return;
+    console.log(value);
+    if (value === null) return;
     setSelectedBookingType(value);
     console.log(value);
   };
@@ -81,19 +94,18 @@ const Home = (props) => {
   /////////////Flight Search Form Changes////////////////////////
   const handleOriginChange = (e, value) => {
     console.log(value);
-    value !== null &&
-      setFlightSearchDetails((oldValues) => ({
-        ...oldValues,
-        origin: value,
-      }));
+
+    setFlightSearchDetails((oldValues) => ({
+      ...oldValues,
+      origin: value === null ? {} : value,
+    }));
   };
 
   const handleDestinationChange = (e, value) => {
-    value !== null &&
-      setFlightSearchDetails((oldValues) => ({
-        ...oldValues,
-        destination: value,
-      }));
+    setFlightSearchDetails((oldValues) => ({
+      ...oldValues,
+      destination: value === null ? {} : value,
+    }));
   };
   const handleDepartDateChange = (value) => {
     console.log(new Date(value));
@@ -117,16 +129,45 @@ const Home = (props) => {
         returnDate: value,
       }));
   };
-  const handlePassengersChange = (e, value) => {
+  const handlePassengersChange = (value) => {
+    value !== null &&
+      setFlightSearchDetails((oldValues) => ({
+        ...oldValues,
+        passengers: value,
+      }));
+  };
+
+  const handleRoundTripChange = (value) => {
+    console.log(value.target.checked);
     setFlightSearchDetails((oldValues) => ({
       ...oldValues,
-      passengers: value,
+      roundTrip: value.target.checked,
     }));
   };
 
   const handleFlightSearch = (e) => {
-    console.log("Searching for Best Flight");
+    console.log("search Details=====>", flightSearchDetails);
+    //////Validation Checks
+    if (
+      !flightSearchDetails.origin.name ||
+      !flightSearchDetails.destination.name
+    ) {
+      toast.error("Please origin and destination");
+      return;
+    }
+    if (
+      flightSearchDetails.origin.iata_code ===
+      flightSearchDetails.destination.iata_code
+    ) {
+      toast.error("Destination must be different from origin");
+      return;
+    }
+
+    ////////////////////
+
+    setLoading(true);
   };
+
   //////////////////////////////////////////////////////////////
 
   return (
@@ -143,7 +184,14 @@ const Home = (props) => {
         handleDestinationChange={handleDestinationChange}
         handleDepartDateChange={handleDepartDateChange}
         handleReturnDateChange={handleReturnDateChange}
+        handleRoundTripChange={handleRoundTripChange}
+        handlePassengersChange={handlePassengersChange}
         handleFlightSearch={handleFlightSearch}
+      />
+      <FlightSearch
+        open={loading}
+        flightSearchDetails={flightSearchDetails}
+        onClose={() => setLoading(false)}
       />
     </>
   );
