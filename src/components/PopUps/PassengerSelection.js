@@ -60,7 +60,7 @@ const PassengerSelection = (props) => {
                   }}
                   fontSize="small"
                   onClick={() => {
-                    if (props.flightSearchDetails.passengers.adults - 1 < 1)
+                    if (props.flightSearchDetails.passengers.adults - 1 < 0)
                       return;
                     props.handlePassengersChange({
                       adults: props.flightSearchDetails.passengers.adults - 1,

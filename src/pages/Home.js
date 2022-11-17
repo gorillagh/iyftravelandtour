@@ -60,8 +60,8 @@ const Home = (props) => {
       setDestinationAirports(result);
 
       const userLocDetails = await fetch(
-        // "https://api.ipregistry.co/?key=qp552fub7f2xswwe"
-        "https://api.ipregistry.co/?key="
+        "https://api.ipregistry.co/?key=qp552fub7f2xswwe"
+        // "https://api.ipregistry.co/?key="
       ).then(function (response) {
         return response.json();
       });
@@ -160,6 +160,14 @@ const Home = (props) => {
       flightSearchDetails.destination.iata_code
     ) {
       toast.error("Destination must be different from origin");
+      return;
+    }
+    if (
+      flightSearchDetails.passengers.adults +
+        flightSearchDetails.passengers.infants <=
+      0
+    ) {
+      toast.error("Please number of passengers");
       return;
     }
 
