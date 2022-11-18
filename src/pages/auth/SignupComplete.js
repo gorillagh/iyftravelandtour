@@ -55,8 +55,8 @@ const SignupComplete = () => {
   });
 
   useEffect(() => {
-    if (window.localStorage.getItem("eBSignupEmail")) {
-      setEmail(window.localStorage.getItem("eBSignupEmail"));
+    if (window.localStorage.getItem("iyfSignupEmail")) {
+      setEmail(window.localStorage.getItem("iyfSignupEmail"));
     } else {
       setEmailAvailable(false);
     }

@@ -15,6 +15,7 @@ import { IconButton } from "@mui/material";
 import PassengerSelection from "../PopUps/PassengerSelection";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const FlightSearchForm = (props) => {
   const [open, setOpen] = React.useState(false);
@@ -84,8 +85,8 @@ const FlightSearchForm = (props) => {
       <Grid container>
         <Grid item md={2}></Grid>
         <Grid item md={2}></Grid>
-        <Grid item md={3}></Grid>
-        <Grid item md={2}>
+        <Grid item md={3.5}></Grid>
+        <Grid item md={2.5}>
           {" "}
           <FormControlLabel
             sx={{ visibility: { xs: "hidden", md: "visible" } }}
@@ -110,7 +111,7 @@ const FlightSearchForm = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={{ xs: 2, md: 3 }} justifyContent="center">
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2.5}>
           <Autocomplete
             open={open}
             onOpen={() => {
@@ -177,7 +178,7 @@ const FlightSearchForm = (props) => {
         </Grid>
 
         {/* ////////////////////////Destination////////////////////////// */}
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2.5}>
           <Autocomplete
             open={openDes}
             onOpen={() => {
@@ -244,8 +245,8 @@ const FlightSearchForm = (props) => {
             )}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
-          <Grid container spacing={{ xs: 1, md: 1 }}>
+        <Grid item xs={12} md={3.5}>
+          <Grid container spacing={{ xs: 1, md: 0.5 }}>
             <Grid container>
               <Grid item xs={6}></Grid>
               <Grid item xs={6}>
@@ -358,7 +359,7 @@ const FlightSearchForm = (props) => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} md={2.5}>
           <TextField
             size="small"
             type="text"
@@ -395,8 +396,27 @@ const FlightSearchForm = (props) => {
           />
         </Grid>
       </Grid>
-      <Grid container justifyContent="right" spacing={1}>
-        <Grid item xs={12} md={3}>
+      <Grid container justifyContent="right" spacing={2}>
+        <Grid item xs={12} md={3} mt={2}>
+          {props.flightSearchDetails.destination.city && (
+            <Typography variant="bobdy1">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={props.flightSearchDetails.showHotels}
+                    onChange={props.handleShowHotelsChange}
+                  />
+                }
+                label={
+                  <Typography variant="body2" color="#fff" fontWeight="bold">
+                    Show me hotels in{" "}
+                    {props.flightSearchDetails.destination.city}
+                  </Typography>
+                }
+              />
+            </Typography>
+          )}
+
           <ActionButton
             type="submit"
             backgroundColor="secondary.dark"

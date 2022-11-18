@@ -27,6 +27,7 @@ const Home = (props) => {
     bookingType: selectedBookingType,
     bookingClass: "economy",
     roundTrip: true,
+    showHotels: false,
   });
   const [originAirports, setOriginAirports] = useState([]);
   const [destinationAirports, setDestinationAirports] = useState([]);
@@ -145,6 +146,14 @@ const Home = (props) => {
     }));
   };
 
+  const handleShowHotelsChange = (value) => {
+    console.log(value.target.checked);
+    setFlightSearchDetails((oldValues) => ({
+      ...oldValues,
+      showHotels: value.target.checked,
+    }));
+  };
+
   const handleFlightSearch = (e) => {
     console.log("search Details=====>", flightSearchDetails);
     //////Validation Checks
@@ -152,7 +161,7 @@ const Home = (props) => {
       !flightSearchDetails.origin.name ||
       !flightSearchDetails.destination.name
     ) {
-      toast.error("Please origin and destination");
+      toast.error("Please set origin and destination");
       return;
     }
     if (
@@ -167,7 +176,7 @@ const Home = (props) => {
         flightSearchDetails.passengers.infants <=
       0
     ) {
-      toast.error("Please number of passengers");
+      toast.error("Please set number of passengers");
       return;
     }
 
@@ -194,6 +203,7 @@ const Home = (props) => {
         handleReturnDateChange={handleReturnDateChange}
         handleRoundTripChange={handleRoundTripChange}
         handlePassengersChange={handlePassengersChange}
+        handleShowHotelsChange={handleShowHotelsChange}
         handleFlightSearch={handleFlightSearch}
       />
       <FlightSearch
