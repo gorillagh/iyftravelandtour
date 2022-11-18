@@ -14,7 +14,7 @@ const ActionButton = (props) => {
         my: props.my,
         borderRadius: 5,
         textTransform: "capitalize",
-        color: props.variant !== "contained" ? "" : "#fff",
+        color: props.variant !== "contained" ? props.textColor : "#fff",
         backgroundColor: props.backgroundColor,
         "&:hover": {
           boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
@@ -29,6 +29,7 @@ const ActionButton = (props) => {
 };
 
 ActionButton.defaultProps = {
+  textColor: "",
   my: 3,
   variant: "contained",
   color: "primary",

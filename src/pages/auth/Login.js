@@ -169,18 +169,17 @@ const Login = () => {
           <PageTitle title="Log In" />
           {/* <Subtitle title="Log In" /> */}
           <ActionButton
-            color="secondary"
             onClick={googleSignIn}
             text={
               <>
                 <Icon sx={{ mr: 2 }}>
                   {" "}
-                  <img src={googleSignInIcon} />{" "}
+                  <img src={googleSignInIcon} alt="Google icon" />{" "}
                 </Icon>
-                With Google
+                <Typography color="#000">With Google</Typography>
               </>
             }
-            backgroundColor="#E34133"
+            backgroundColor="#fff"
           />
 
           <Typography

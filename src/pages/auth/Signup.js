@@ -191,18 +191,17 @@ const Signup = () => {
             onSubmit={handleSubmit}
           >
             <ActionButton
-              color="secondary"
               onClick={googleSignIn}
               text={
                 <>
                   <Icon sx={{ mr: 2 }}>
                     {" "}
-                    <img src={googleSignInIcon} />{" "}
+                    <img src={googleSignInIcon} alt="Google icon" />{" "}
                   </Icon>
-                  Join with Google
+                  <Typography color="#000">Join with Google</Typography>
                 </>
               }
-              backgroundColor="#E34133"
+              backgroundColor="#fff"
             />
             <Typography
               sx={{ my: 3 }}
