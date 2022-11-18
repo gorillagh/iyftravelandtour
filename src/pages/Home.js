@@ -12,7 +12,7 @@ const Home = (props) => {
   const [bookingTypes, setBookingTypes] = useState([
     { type: "flights", icon: "flight" },
     { type: "hotels", icon: "hotel" },
-    { type: "visa", icon: "card" },
+    { type: "visa", icon: "approval" },
   ]);
   const [selectedBookingType, setSelectedBookingType] = useState("flights");
   const [flightSearchDetails, setFlightSearchDetails] = useState({

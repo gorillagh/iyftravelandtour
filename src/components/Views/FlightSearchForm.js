@@ -81,7 +81,10 @@ const FlightSearchForm = (props) => {
   };
 
   return (
-    <Box display={props.selectedBookingType !== "flights" ? "none" : ""}>
+    <Box
+      display={props.selectedBookingType !== "flights" ? "none" : ""}
+      px={{ xs: 1.5 }}
+    >
       <Grid container>
         <Grid item md={2}></Grid>
         <Grid item md={2}></Grid>
